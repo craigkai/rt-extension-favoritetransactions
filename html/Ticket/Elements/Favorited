@@ -1,0 +1,30 @@
+<&| /Widgets/TitleBox, title => loc("Favorites"), class => 'ticket-info-reminders', &>
+<div>
+<%perl>
+my $txns = RT::Transactions->new($session{'CurrentUser'});
+$txns->LimitToTicket($Ticket->Id);
+
+while (my $tx = $txns->Next) {
+    my $attr = $tx->FirstAttribute('Favorited');
+    next unless $attr;
+
+    if ( $attr->Content->{$session{'CurrentUser'}->Id} ) {
+</%perl>
+        <div>
+          <a href="<% RT->Config->Get('WebPath') ."/Ticket/Display.html?id=".$Ticket->id."#txn-".$tx->id%>">
+            <%  $m->comp( '/Elements/ShowTransaction',
+                %ARGS,
+                Object            => $Ticket,
+                Transaction       => $tx,
+                ShowHeaders       => 0,
+                DisplayPath       => $HTML::Mason::Commands::r->path_info
+            ) %>
+          </a>
+        </div>
+%   }
+% }
+</div>
+</&>
+<%args>
+$Ticket
+</%args>

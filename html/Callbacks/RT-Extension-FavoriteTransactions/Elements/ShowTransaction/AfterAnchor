@@ -1,0 +1,26 @@
+<span class="toggle-bookmark">
+% if ( $Transaction->FirstAttribute('Favorited') && $Transaction->FirstAttribute('Favorited')->Content->{$session{'CurrentUser'}->Id } ) {
+  <a href="<% $DisplayPath %>?id=<% $Object->id %>&txt-favorite-remove=1&txn-id=<% $Transaction->id %>"><img src="<% RT->Config->Get('WebPath') %>/static/images/star-full.png" alt="<% loc('Un-favorite') %>" /></a>
+%   } else {
+  <a href="<% $DisplayPath %>?id=<% $Object->id %>&txt-favorite=1&txn-id=<% $Transaction->id %>"><img src="<% RT->Config->Get('WebPath') %>/static/images/star-empty.png" alt="<% loc('Favorite') %>" /></a>
+% }
+</span>
+<%args>
+$Transaction
+$Object => $Transaction->Object
+
+$Attachments => undef
+$AttachmentContent => undef
+$HasTxnCFs => 1
+
+$ShowBody => 1
+$ShowActions => 1
+$RowNum => 1
+
+$DisplayPath => undef
+$AttachmentPath => undef
+$UpdatePath => undef
+$ForwardPath => undef
+$EncryptionPath => undef
+$EmailRecordPath => undef
+</%args>

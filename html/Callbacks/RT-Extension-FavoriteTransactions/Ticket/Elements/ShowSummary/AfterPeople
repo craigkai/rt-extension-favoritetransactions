@@ -1,0 +1,5 @@
+<& /Ticket/Elements/Favorited, Ticket => $Ticket &>
+
+<%args>
+$Ticket
+</%args>

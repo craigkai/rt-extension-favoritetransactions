@@ -1,0 +1,21 @@
+<%init>
+if ( $ARGSRef->{'txt-favorite'} or $ARGSRef->{'txt-favorite-remove'} && $ARGSRef->{'txn-id'} ) {
+    my $txn = RT::Transaction->new($session{'CurrentUser'});
+    $txn->Load( $ARGSRef->{'txn-id'} );
+
+    my $current_value = $txn->FirstAttribute('Favorited') ? $txn->FirstAttribute('Favorited')->Content : ();
+    if ( $ARGSRef->{'txt-favorite'} ) {
+        $current_value->{$session{'CurrentUser'}->Id} = 1;
+        $txn->SetAttribute(Name => 'Favorited', Content => $current_value);
+    }
+    if ( $ARGSRef->{'txt-favorite-remove'} ) {
+        $current_value->{$session{'CurrentUser'}->Id} = 0;
+        $txn->SetAttribute(Name => 'Favorited', Content => $current_value);
+    }
+}
+</%init>
+<%args>
+$TicketObj
+$ARGSRef
+$SkipProcessing
+</%args>
